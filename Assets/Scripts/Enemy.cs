@@ -16,7 +16,6 @@ public class Enemy : MonoBehaviour
     public float attackRange = 0.5f;
     public int attackDamage = 40;
     public float invincibleRate = 2;
-    float invincibleCool = 0;
 
 
     // Start is called before the first frame update
@@ -27,30 +26,20 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-
-        // Detect enemies in range of attack
+        // Creates an array of all objects inside of the attack collider.
         Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer);
 
-
-        // Damage them
-        // Change so it only detects one collider
-        foreach (Collider2D player in hitPlayer)
+        // if there is anything in the array, call TakeDamage if the object has the method.
+        if (hitPlayer.Length > 0)
         {
-            
-            // Mke sure you are referencing the PlayerMovement script
-            player.GetComponent<PlayerMovement>().TakeDamage(attackDamage);
-            //Debug.Log(collison.collider.name);  
+            // Make sure that you are refrencing the Enemy script
+            hitPlayer[0].GetComponent<PlayerCombat>().TakeDamage(attackDamage);
         }
-
-
     }
 
     void OnDrawGizmosSelected()
     {
-
-        if (attackPoint == null)
-            return;
-
+        if (attackPoint == null) { return; }
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
@@ -58,7 +47,6 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-
         // Play hurt animation
         animator.SetTrigger("Hurt");
 
@@ -66,25 +54,20 @@ public class Enemy : MonoBehaviour
         {
             Die();
         }
-
-
     }
 
+    // Detect if player is in range for attack
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Attack!");
         animator.SetTrigger("Attack");
-
     }
 
     void Die()
     {
-        // Die Animation
         animator.SetBool("IsDead", true);
 
         // Disable Enemy
         GetComponent<CapsuleCollider2D>().enabled = false;
         this.enabled = false;
     }
-
 }

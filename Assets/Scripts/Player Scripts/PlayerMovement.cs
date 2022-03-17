@@ -7,22 +7,15 @@ public class PlayerMovement : MonoBehaviour
 
     public CharacterController2D controller; 
     public Animator animator;
-    public HealthBar healthBar; 
+
 
     public float runSpeed = 40f;
 
-    public int maxHealth = 100;
-    public int currentHealth; 
+
 
     float horizontalMove = 0f;
     bool jump = false;
     bool strafe = false; 
-
-    void Start()
-    {
-        currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth); 
-    }
 
     // Update is called once per frame
     void Update()
@@ -46,15 +39,6 @@ public class PlayerMovement : MonoBehaviour
         {
             strafe = false; 
         }
-
-        // Debug for health
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TakeDamage(20); 
-        }
-        
-
-
     }
 
      public void OnLanding ()
@@ -67,11 +51,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("IsStrafing", IsStrafing);
     }
 
-    public void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        healthBar.SetHealth(currentHealth); 
-    }
+
 
      void FixedUpdate()
     {

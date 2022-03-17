@@ -9,42 +9,50 @@ public class PlayerCombat : MonoBehaviour
 
     public Animator animator;
     public Transform attackPoint;
+    public HealthBar healthBar;
 
     public float attackRange = 0.5f;
     public int attackDamage = 40;
 
+    public int maxHealth = 100;
+    public int currentHealth;
 
-    // Update is called once per frame
+    void Start()
+    {
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+    }
+
     void Update()
     {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                // Play an attack Animation
-                animator.SetTrigger("Attack");
-            }
+        // If space is pressed, play attack animation.
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            animator.SetTrigger("Attack");
+        }
     }
 
     void Attack()
     {
-        
-        // Detect enemies in range of attack
+        // Creates an array of all objects inside of the attack collider.
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
-        // Damage them
-        foreach(Collider2D enemy in hitEnemies)
+        if (hitEnemies.Length > 0)
         {
             // Make sure that you are refrencing the Enemy script
-            enemy.GetComponent<Enemy>().TakeDamage(attackDamage); 
+            hitEnemies[0].GetComponent<Enemy>().TakeDamage(attackDamage);
         }
-
     }
 
     void OnDrawGizmosSelected()
     {
-        if (attackPoint == null)
-            return; 
-
+        if (attackPoint == null) { return; }
         Gizmos.DrawWireSphere(attackPoint.position, attackRange); 
     }
 
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
+    }
 }
