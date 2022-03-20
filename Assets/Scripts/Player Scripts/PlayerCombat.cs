@@ -30,6 +30,7 @@ public class PlayerCombat : MonoBehaviour
         {
             animator.SetTrigger("Attack");
         }
+        healthBar.SetHealth(currentHealth);
     }
 
     void Attack()
@@ -53,6 +54,5 @@ public class PlayerCombat : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
     }
 }

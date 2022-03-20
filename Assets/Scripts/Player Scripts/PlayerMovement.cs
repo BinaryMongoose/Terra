@@ -15,29 +15,34 @@ public class PlayerMovement : MonoBehaviour
 
     float horizontalMove = 0f;
     bool jump = false;
-    bool strafe = false; 
+    bool strafe = false;
 
     // Update is called once per frame
     void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-        animator.SetFloat("Speed", Mathf.Abs(horizontalMove)); 
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
-        
-        if (Input.GetButtonDown("Jump"))
-        {
-            jump = true;
-            animator.SetBool("IsJumping", true); 
-        }
+        if (PauseControl.gameIsPaused == false) {
 
-        
-        if (Input.GetButtonDown("Strafe"))
-        {
-            strafe = true; 
+            if (Input.GetButtonDown("Jump"))
+            {
+                jump = true;
+                animator.SetBool("IsJumping", true);
+            }
 
-        }else if (Input.GetButtonUp("Strafe"))
+            if (Input.GetButtonDown("Strafe"))
+            {
+                strafe = true;
+
+            }
+            else if (Input.GetButtonUp("Strafe"))
+            {
+                strafe = false;
+            }
+        } else
         {
-            strafe = false; 
+            Debug.Log("The game is Paused!");
         }
     }
 
