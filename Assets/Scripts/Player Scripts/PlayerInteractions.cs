@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerInteractions : MonoBehaviour
 {
+    public string[] inventory;
+    public string playerName = "James";
+    public int money = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +18,10 @@ public class PlayerInteractions : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void AddCash(int amount)
+    {
+        money += amount;
     }
 }

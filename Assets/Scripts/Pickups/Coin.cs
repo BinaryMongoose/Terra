@@ -2,39 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthPickup : MonoBehaviour
+public class Coin : MonoBehaviour
 {
     public GameObject player;
     public GameObject self;
 
-    PlayerCombat playerCombat;
+    PlayerInteractions playerInteractions;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerCombat = player.GetComponent<PlayerCombat>();
+        playerInteractions = player.GetComponent<PlayerInteractions>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Heal();
+            Debug.Log("Ayo");
+            CoinPickup();
         }
     }
 
-    public void Heal()
+    public void CoinPickup()
     {
-        if (playerCombat.currentHealth < playerCombat.maxHealth)
-        {
-            playerCombat.currentHealth += 20;
-            Destroy(self);
-        }
+        playerInteractions.AddCash(10);
+        Destroy(self);
     }
 }
